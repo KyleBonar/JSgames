@@ -4,7 +4,7 @@ function ballObject(width, height, radius) {
     this.x = width / 2; //start in center x
     this.y = height / 2; //start in center y
 
-    this.xspeed = 5; //initial velocty x
+    this.xspeed = -5; //initial velocty x
     this.yspeed = 1; //initial velocity y
 
     this.radius = radius; //radius
@@ -25,32 +25,40 @@ function ballObject(width, height, radius) {
         } else if (this.y >= ai.y && this.y <= (ai.y + ai.height) && (this.x + this.radius) >= (ai.x)) { //hit ai paddle
             this.xspeed = -this.xspeed;
             ai.state = "happy"; //ai hitting ball makes ai happy
-        } else if ( (this.x) < (p1.x + p1.width) || (this.x) > ai.x) {  //if ball goes off screen
+        } else if ( ( (this.x) < (p1.x + p1.width) || (this.x) > ai.x) && (this.xspeed != 0 && this.yspeed != 0) ) {  //if ball goes off screen
             this.xspeed = 0; //hold ball still
             this.yspeed = 0; //hold ball still
+            var newXSpeed = Math.random() > 0.5 ? -5 : 5; //give either positive or negative x speed
+            var newYSpeed = Math.random() > 0.5 ? (-1) * Math.floor((Math.random() * 4) + 1) : Math.floor((Math.random() * 4) + 1);       
 
-            gameContext.beginPath(); //new ball showing where crossed line
-            gameContext.fillStyle = "red";
-            gameContext.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
-            gameContext.fill();
-
+            // gameContext.beginPath(); //new ball showing where crossed line
+            // gameContext.fillStyle = "red";
+            // gameContext.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
+            // gameContext.fill();
+      	
             setTimeout(function() {
-              ball.x = width / 2; //reset to middle
-              ball.y = height / 2; //reset to middle
-              p1.resetPos();
-              ai.resetPos();
-              setTimeout(function() {
-                if(ball.xspeed == 0 && ball.yspeed == 0 ){
-                    ball.xspeed = Math.random() > 0.5 ? -5 : 5; //give either positive or negative x speed
-                    ball.yspeed = Math.random() > 0.5 ? (-1) * Math.floor((Math.random() * 4) + 1) : Math.floor((Math.random() * 4) + 1);
-                }
-              }, 1000);
-            },1000);
+	            ball.x = width / 2; //reset to middle
+	            ball.y = height / 2; //reset to middle
+	            p1.resetPos();
+	            ai.resetPos(); 
+		        setTimeout(function() {
+		            ball.xspeed = newXSpeed;
+		            ball.yspeed = newYSpeed;
+		        }, 1000);
+	        }, 1000);
+           
         } else {
          this.xspeed = this.xspeed;
          this.yspeed = this.yspeed;
         }
+    }
 
+    this.color = function() {
+    	if(this.xspeed == 0 || this.yspeed == 0) {
+    		return "red";
+    	} else {
+    		return "white";
+    	}
     }
 
 }
@@ -138,7 +146,7 @@ window.onload = function() {
     draw();
 
     gameCanvas.addEventListener("click", function() {
-        setInterval(draw, 1000 / 30); //update at 30 fps
+       window.setInterval(draw, 1000 / 30); //update at 30 fps
     });
 }
 
@@ -156,7 +164,7 @@ function draw() {
     gameContext.fillRect(ai.x, ai.y, ai.width, ai.height);
 
     gameContext.beginPath(); //ball
-    gameContext.fillStyle = "white";
+    gameContext.fillStyle = ball.color();
     gameContext.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI, false);
     gameContext.fill();
 
