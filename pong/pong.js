@@ -29,24 +29,24 @@ function ballObject(width, height, radius) {
             this.xspeed = 0; //hold ball still
             this.yspeed = 0; //hold ball still
             var newXSpeed = Math.random() > 0.5 ? -5 : 5; //give either positive or negative x speed
-            var newYSpeed = Math.random() > 0.5 ? (-1) * Math.floor((Math.random() * 4) + 1) : Math.floor((Math.random() * 4) + 1);       
+            var newYSpeed = Math.random() > 0.5 ? (-1) * Math.floor((Math.random() * 4) + 1) : Math.floor((Math.random() * 4) + 1); //whole number between -4 and -1 OR 1 and 4      
 
             // gameContext.beginPath(); //new ball showing where crossed line
             // gameContext.fillStyle = "red";
             // gameContext.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
             // gameContext.fill();
-      	
+
             setTimeout(function() {
 	            ball.x = width / 2; //reset to middle
 	            ball.y = height / 2; //reset to middle
 	            p1.resetPos();
-	            ai.resetPos(); 
+	            ai.resetPos();
 		        setTimeout(function() {
 		            ball.xspeed = newXSpeed;
 		            ball.yspeed = newYSpeed;
 		        }, 1000);
 	        }, 1000);
-           
+
         } else {
          this.xspeed = this.xspeed;
          this.yspeed = this.yspeed;
