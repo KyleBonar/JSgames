@@ -60,23 +60,26 @@ function draw() {
 			area: Math.floor( textObject[textKeys[i]] / scalingFactor ), //want total surface area to be the count value of the word
 			r: function() { return Math.pow( this.area / Math.PI , 1/2); }, //formula to get radius from surface area
 			x: ( Math.random()*canvas.width ) + 1, //random x in width
-		  y: ( Math.random()*canvas.height ) + 1, //random y in height
-			inArray: false
+		  y: ( Math.random()*canvas.height ) + 1 //random y in height
 		}
 
 		//check to see if circles are overlapping
 		for(let j = 0, length = bubbles.length-1; j < length; j++) { //-1 because we don't want to compare to self.
 			protectFromBreak = 500;
 			distance = getDistance(circle.x, circle.y, bubbles[j].x, bubbles[j].y);
-			while(distance < bubbles[j].r + circle.r && protectFromBreak!=0) { //meaning one inside the other
-				protectFromBreak--;
-				circle.x = ( Math.random()*canvas.width ) + 1; //try new x
-				circle.y = ( Math.random()*canvas.height ) + 1; //try new y
-				distance = getDistance(circle.x, circle.y, bubbles[j].x, bubbles[j].y);
+			while(distance < (bubbles[j].r() + circle.r())) { //meaning one inside the other
+				if(protectFromBreak!=0){
+					protectFromBreak--;
+					circle.x = ( Math.random()*canvas.width ) + 1; //try new x
+					circle.y = ( Math.random()*canvas.height ) + 1; //try new y
+					distance = getDistance(circle.x, circle.y, bubbles[j].x, bubbles[j].y);
+				} else {
+					console.log("couldn't place bubble");
+				}
 			}
+			console.log(protectFromBreak);
 		}
 
-		circle.inArray = true;
 		bubbles.push(circle); //push into array
 
 
@@ -94,7 +97,7 @@ function draw() {
 
 function getScalingFactor(count) { //returns a scale factor based of largest count value
 	if(count > 7000) {
-		return scalingFactor = 9;
+		return scalingFactor = 1/8;
 	} else if (count > 6000) {
 		return scalingFactor = 8;
 	} else if (count > 5000) {
