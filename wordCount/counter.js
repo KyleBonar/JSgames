@@ -11,6 +11,7 @@ var textKeys; //array of only keys
 var bubbles; //array for circles
 var protectFromBreak;
 var word;
+var distance;
 
 document.getElementById("submit").addEventListener("click", function() {
 	canvas = document.getElementById("game-canvas");
@@ -19,6 +20,7 @@ document.getElementById("submit").addEventListener("click", function() {
 	textObject = {}; //set to new every time
 	textKeys = [];//set to new every time
 	bubbles = [] //empty array to store each circle
+	distance = 0; //find distance between two circles
 
 	textBlock = document.getElementById("word_blob").value;
 	textString = textBlock.replace(/[\n\t?.,*;)("!:]/g, ' ');//replace all new lines, tabs, and specific special characters with space
@@ -53,44 +55,53 @@ function draw() {
 	var scalingFactor = getScalingFactor( textObject[textKeys[0]] );
 
 	//only interested in top 25 most-used words
-	for(let i = 0; i < 25; i++) {
+	for(let i = 0; i < 10; i++) {
 		var circle = {
 			word: textKeys[i],
 			count: textObject[textKeys[i]],
 			area: Math.floor( textObject[textKeys[i]] / scalingFactor ), //want total surface area to be the count value of the word
-			r: function() { return Math.pow( this.area / Math.PI , 1/2); }, //formula to get radius from surface area
-			x: ( Math.random()*canvas.width ) + 1, //random x in width
-		  y: ( Math.random()*canvas.height ) + 1 //random y in height
+			r: 0,
+			x: 0,
+		  y: 0
 		}
+		circle.r = Math.pow( circle.area / Math.PI , 1/2); //formula to get radius from surface area
+		circle.x = Math.random()*( canvas.width - 2*circle.r + 1) + circle.r; //random x in width
+		circle.y = Math.random()*( canvas.height - 2*circle.r + 1) + circle.r; //random y in height
 
-		//check to see if circles are overlapping
-		for(let j = 0, length = bubbles.length-1; j < length; j++) { //-1 because we don't want to compare to self.
-			protectFromBreak = 500;
-			distance = getDistance(circle.x, circle.y, bubbles[j].x, bubbles[j].y);
-			while(distance < (bubbles[j].r() + circle.r())) { //meaning one inside the other
-				if(protectFromBreak!=0){
-					protectFromBreak--;
-					circle.x = ( Math.random()*canvas.width ) + 1; //try new x
-					circle.y = ( Math.random()*canvas.height ) + 1; //try new y
-					distance = getDistance(circle.x, circle.y, bubbles[j].x, bubbles[j].y);
-				} else {
-					console.log("couldn't place bubble");
+		restartLoop:
+		while(true){
+			//check to see if circles are overlapping
+			for(let j = 0, length = bubbles.length; j < length; j++) {
+				previous = bubbles[j];
+				protectFromBreak = 500;
+				distance = getDistance(circle.x, circle.y, previous.x, previous.y);
+
+				if( distance < (previous.r+circle.r) ) { //meaning one inside the other
+						circle.x = Math.random()*( canvas.width - 2*circle.r + 1) + circle.r; //try new x
+						circle.y = Math.random()*( canvas.height - 2*circle.r + 1) + circle.r; //try new y
+						// distance = getDistance(circle.x, circle.y, previous.x, previous.y);
+						continue restartLoop;
 				}
 			}
-			console.log(protectFromBreak);
+			break;
 		}
 
+
+
+		console.log(circle.word+" "+circle.x+" "+circle.y);
 		bubbles.push(circle); //push into array
 
+	}
+	//finally draw circles
+	for(let k = 0, length = bubbles.length; k < length; k++) {
+		canvasArea.beginPath();
+		canvasArea.fillStyle = 'rgba(255, 255, 255, 100)';
+		canvasArea.arc(bubbles[k].x, bubbles[k].y, bubbles[k].r, 0, 2 * Math.PI, false );
+		canvasArea.fill();
 
-		//finally draw circles
-		for(let k = 0, length = bubbles.length; k < length; k++) {
-			canvasArea.beginPath();
-			canvasArea.fillStyle = 'rgba(255, 255, 255, 100)';
-			canvasArea.arc(bubbles[k].x, bubbles[k].y, bubbles[k].r(), 0, 2 * Math.PI, false );
-			canvasArea.fill();
-		}
-
+		canvasArea.font="20px Georgia";
+		canvasArea.fillStyle = "blue";
+		canvasArea.fillText(bubbles[k].word, bubbles[k].x, bubbles[k].y);
 	}
 
 }
@@ -122,5 +133,6 @@ function getScalingFactor(count) { //returns a scale factor based of largest cou
 }
 
 function getDistance( x1, y1, x2, y2) {
-	return Math.sqrt( Math.pow( (y2 - y1), 2) + Math.pow( (x2 - x1), 2) ); //distance between two points formula
+	return Math.pow( Math.pow( (y2 - y1), 2) + Math.pow( (x2 - x1), 2), 1/2); //distance between two points formula
+	// return Math.sqrt( Math.pow((x1-x2), 2) + Math.pow((y1-y2), 2) );
 }
