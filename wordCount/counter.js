@@ -68,22 +68,19 @@ function draw() {
 		circle.x = Math.random()*( canvas.width - 2*circle.r + 1) + circle.r; //random x in width
 		circle.y = Math.random()*( canvas.height - 2*circle.r + 1) + circle.r; //random y in height
 
-		restartLoop:
-		while(true){
-			//check to see if circles are overlapping
+		restartLoop: //may come back to this to force cicles not to overlap
+		while(true){ //infinite loop on purpose
 			for(let j = 0, length = bubbles.length; j < length; j++) {
 				previous = bubbles[j];
-				protectFromBreak = 500;
 				distance = getDistance(circle.x, circle.y, previous.x, previous.y);
 
 				if( distance < (previous.r+circle.r) ) { //meaning one inside the other
 						circle.x = Math.random()*( canvas.width - 2*circle.r + 1) + circle.r; //try new x
 						circle.y = Math.random()*( canvas.height - 2*circle.r + 1) + circle.r; //try new y
-						// distance = getDistance(circle.x, circle.y, previous.x, previous.y);
-						continue restartLoop;
+						continue restartLoop; //jump back to top
 				}
 			}
-			break;
+			break; //break out of while
 		}
 
 
