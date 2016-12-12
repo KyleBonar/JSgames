@@ -1,0 +1,15 @@
+#contentHolder{
+  width: 80%;
+  margin: 0 auto;
+}
+#submit {
+  display: block;
+  margin: 0 auto;
+}
+
+#word_blob {
+  display: block;
+  margin: 0 auto;
+  width: 645px;
+  height: 115px;
+}
