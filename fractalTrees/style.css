@@ -2,3 +2,14 @@
   width: 900px;
   margin: 0 auto;
 }
+
+#canvasHolder {
+	width:75%;
+	display: inline;
+}
+
+#controlHolder {
+	float: left;
+	width: 22%;
+	display: inline;
+}
