@@ -122,18 +122,13 @@ var ball;
 var p1;
 var ai;
 
-var instructions = document.createElement('p');
-instructions.innerHTML = "Click the canvas to begin the game. Press the up and down arrows on your keyboard to move your paddle. Have fun!";
-instructions.style.textAlign = "center";
-document.body.appendChild(instructions);
-
 var canvas = document.createElement('canvas');
 canvas.width = 640;
 canvas.height = 400;
 canvas.style.display = "block"; //make block
 canvas.style.margin = "0 auto"; //center block on screen
 canvas.id = "game-canvas";
-document.body.appendChild(canvas);
+document.getElementById('contentHolder').appendChild(canvas);
 
 
 
