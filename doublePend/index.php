@@ -15,7 +15,8 @@
 		String 2 length: <input id='string2_length' type='range' min='50' max='150' step='10' value='120'><span id='string2_length_val'></span><br />
 		Gravity: <input id='gravity' type='range' min='5' max='15' step='1' value='10'><span id='gravity_val'></span>
 
-	  <br>
+	  <br />
+		<br />
 	  <button id='reset_pend'>Reset Pendulum</button><br />
 	  <button id='go_pend'>Go!</button>
   </div>
