@@ -11,7 +11,8 @@ function Bird() {
 	//draw bird
 	this.show = function() {
 		fill(255);
-		ellipse(this.x, this.y, this.r*2, this.r*2);
+		rect(this.x, this.y, this.r*2, this.r*2, 5);
+		// ellipse(this.x, this.y, this.r*2, this.r*2);
 	}
 
 	//bird flap wings
@@ -27,13 +28,13 @@ function Bird() {
 		this.velocity *=0.9;
 		this.y += this.velocity;
 
-		//if it hits bottom, stop
+		//if bird hits bottom, stop
 		if (this.y > height - this.r) {
 			this.y = height - this.r;
 			this.velocity = 0; 
 		}
 
-		//if it hits top, stop
+		//if bird hits top, stop
 		if (this.y < this.r) {
 			this.y = this.r;
 			this.velocity = 0;

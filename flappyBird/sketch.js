@@ -1,9 +1,10 @@
-var bird;
+var environment, bird;
 var walls = [];
+
 function setup() {
 	createCanvas(400, 500);
 	bird = new Bird();
-	
+	environment = new Environment();
 }
 
 function draw() {
@@ -21,15 +22,22 @@ function draw() {
 		walls[i].update();
 		walls[i].show();
 
-		if(walls[i].contact(bird)) {
-			console.log("made contact");
-		}
+		walls[i].contact(bird, environment);
 
 		//remove wall if off screen
 		if(walls[i].x + walls[i].w < 0) {
+			//increase and decrease score accordingly
+			if(walls[i].isTouched) {
+				environment.score--
+			} else {
+				environment.score++;
+			}
 			walls.splice(i, 1);
+
 		}
-	} 
+	}
+	textSize(32);
+	text(environment.score, width/2, 30);
 }
 
 //p5 function to get keyboard press
