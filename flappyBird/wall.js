@@ -12,7 +12,7 @@ function Wall() {
 		if(this.isTouched){
 			fill("red");
 		} else {
-			fill(255);
+			fill(51);
 		}
 		
 		//draw top wall
@@ -28,10 +28,14 @@ function Wall() {
 	//check if wall and bird make contact
 	this.contact = function(bird, score) {
 		//check x values
-		if(bird.x+bird.r > this.x && bird.x-bird.r < this.x + this.w) {
+		if(bird.x+bird.r*2 - environment.marginOfError > this.x && bird.x < this.x + this.w) {
 			//check y values
-			if (bird.y-bird.r < this.top || bird.y+bird.r >  this.bottom) {		
+			if (bird.y + environment.marginOfError < this.top || bird.y+bird.r*2 - environment.marginOfError >  this.bottom) {		
 				this.isTouched = true; //will change wall to red
+				environment.playerAlive = false;
+				bird.isAlive = false;
+				noLoop();
+
 			} 
 		}
 	}
