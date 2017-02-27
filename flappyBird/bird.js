@@ -7,10 +7,8 @@ function Bird() {
 	this.velocity = 0; //y-velocity only
 	this.lift = -15; //force up
 
-	this.isAlive = true;
-
 	//draw bird
-	this.show = function() {
+	this.drawBird = function() {
 
 		//top half of body
 		fill('#e91640');
@@ -44,15 +42,17 @@ function Bird() {
 	}
 
 	//bird flap wings
-	this.flap = function() {
-		if(this.isAlive) {
+	this.flap = function(isAlive) {
+		if(isAlive) {
 			this.velocity += this.lift;
 		}
 	}
 
 	//make bird fall with gravity
-	this.update = function() {
-		if(this.isAlive) {
+	this.update = function(isAlive, isDeath) {
+
+		//while game is going
+		if(isAlive && !isDeath) {
 			//gravity pulls bird down with air resistance
 			this.velocity += this.gravity;
 			this.velocity *=0.9;
@@ -71,6 +71,21 @@ function Bird() {
 				this.velocity = 0;
 
 			}
+		} else if(isDeath){
+
+		} else {
+			//make bird go up and down
+			if(frameCount % 100 >= 50 ){
+				bird.y+=1;
+			} else {
+				bird.y-=1;
+			}
 		}
 	}
+
+	this.reset = function() {
+		this.y = height/2;
+		this.x = 25;
+	}
+
 }
