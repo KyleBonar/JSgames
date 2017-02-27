@@ -8,11 +8,13 @@ function setup() {
 }
 
 function draw() {
-	environment.background();
-	bird.update();
-	bird.show();
 
-	if(environment.playerAlive) {
+	//game being actively played
+	if(environment.playerAlive && !environment.playerDeath) {
+		environment.background();
+		bird.update(environment.playerAlive, environment.playerDeath);
+		bird.drawBird();	
+
 		//every 100 frames make a new pipe
 		if(frameCount % 100 == 0) {
 			walls.push(new Wall());
@@ -35,16 +37,44 @@ function draw() {
 				}
 				walls.splice(i, 1);
 			}
+		
 		}
-	}
+		environment.showScore();
 
-	environment.showScore();
+	} else if(environment.playerDeath) {
+		//player died
+
+
+		environment.background();
+		bird.drawBird();	
+		walls[0].show();
+	
+	} else { 
+		//player reset game
+		
+		//reset bird and clear wall
+		// walls = [];
+
+		environment.background();
+		bird.update(environment.playerAlive, environment.playerDeath);
+		bird.drawBird();
+	}
 	
 }
 
-//p5 function to get keyboard press
+//p5 native function to get keyboard press
 function keyPressed() {
+
+	//spacebar
 	if (key == ' ') {
-		bird.flap();
+		//only reset score when player is currently dead and about to become alive
+
+		if()
+		if(!environment.playerAlive) {
+			environment.reset();
+		}
+		
+		environment.playerAlive = true;
+		bird.flap(environment.playerAlive);
 	}
 }
