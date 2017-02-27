@@ -43,17 +43,12 @@ function draw() {
 
 	} else if(environment.playerDeath) {
 		//player died
-
-
 		environment.background();
 		bird.drawBird();	
-		walls[0].show();
+		walls[0].show();//only show the wall bird hit
 	
 	} else { 
 		//player reset game
-		
-		//reset bird and clear wall
-		// walls = [];
 
 		environment.background();
 		bird.update(environment.playerAlive, environment.playerDeath);
@@ -66,15 +61,27 @@ function draw() {
 function keyPressed() {
 
 	//spacebar
-	if (key == ' ') {
-		//only reset score when player is currently dead and about to become alive
+	if (key == " ") {
 
-		if()
-		if(!environment.playerAlive) {
+		//reset score
+		if(!environment.playerAlive && !environment.playerDeath){
 			environment.reset();
 		}
 		
+		//this will cause game to begin again
 		environment.playerAlive = true;
+
+		//start off with a flap!
 		bird.flap(environment.playerAlive);
+	}
+
+	//enter
+	if(keyCode == ENTER) {
+		//reset bird and walls here.
+		if(environment.playerDeath) {
+			environment.playerDeath = false;
+			bird.reset();
+			walls = [];
+		}
 	}
 }

@@ -22,7 +22,7 @@ function Environment() {
 				text("Score: " + this.score, width*9/16, height/6);
 			}
 			fill(255);	
-			text("Press spacebar to RESET the game!", width*9/16, height/4, width-width*9/16, height);
+			text("Press enter to RESET!", width*9/16, height/4, width-width*9/16, height);
 		
 		} else {
 			//generic background
@@ -43,7 +43,7 @@ function Environment() {
 				text("Score: " + this.score, width*9/16, height/6);
 			}
 			fill(255);
-			text("Press spacebar to START the game!", width*9/16, height/4, width-width*9/16, height);
+			text("Press spacebar to START!", width*9/16, height/4, width-width*9/16, height);
 		}	
 	}
 
