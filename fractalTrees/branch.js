@@ -53,7 +53,7 @@ function resetTree() {
 }
 
 function displayTree() {
-  for(let i = 0, length = tree.length; i < length; i++) {
+  for(var i = 0, length = tree.length; i < length; i++) {
     if(!tree[i].drawn) { //if already drawn then we don't want to draw again
       tree[i].show();
       tree[i].drawn = true;

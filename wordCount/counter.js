@@ -41,7 +41,7 @@ document.getElementById("submit").addEventListener("click", function() {
 	textString = textString.replace(/\s\s+/g, ' '); //replace multiple space characters with single space
 	textString = textString.split(' '); //split by space
 
-	for(let i = 0, length = textString.length; i < length; i++) {
+	for(var i = 0, length = textString.length; i < length; i++) {
 		word = textString[i].toLowerCase(); //get single word at a time
 		if(!/\d+/.test(word) && word !== ""){ //anything that is not a string of digits
 			if(textObject[word] === undefined) {
@@ -78,7 +78,7 @@ function draw() {
 	canvasArea.fillRect(0,0,canvas.width,canvas.height);
 
 	//finally draw circles
-	for(let k = 0, length = bubbles.length; k < length; k++) {
+	for(var k = 0, length = bubbles.length; k < length; k++) {
 
 		canvasArea.beginPath();
 		canvasArea.fillStyle = bubbles[k].color;
@@ -119,7 +119,7 @@ function getDistance( x1, y1, x2, y2) {
 function placeCircles() {
 	bubbles.length = 0; //reset array
 	//only interested in top 25 most-used words
-	for(let i = 0; i < 25; i++) {
+	for(var i = 0; i < 25; i++) {
 
 		var circle = {
 			word: textKeys[i],
@@ -137,7 +137,7 @@ function placeCircles() {
 		protectionCount = 100000; //give 10000 chances to place new circles
 		restartLoop: //may come back to this to force new cicle to overlap existing
 			while(true) { //infinite loop needs to be broken out of
-				for(let j = 0, length = bubbles.length; j < length; j++) {
+				for(var j = 0, length = bubbles.length; j < length; j++) {
 					previous = bubbles[j];
 					distance = getDistance(circle.x, circle.y, previous.x, previous.y);
 

@@ -43,7 +43,7 @@ left_angle.addEventListener("change", function(){
 });
 
 canvas.addEventListener("click", function(e) {
-  for(let i = tree.length-1; i >= 0; i--) {
+  for(var i = tree.length-1; i >= 0; i--) {
     if(!tree[i].hasChildren && tree[i].depth!=0) {
       tree.push(tree[i].spawnChildLeft()); //spawn left and push into array
       tree.push(tree[i].spawnChildRight()); //spawn right and push into array

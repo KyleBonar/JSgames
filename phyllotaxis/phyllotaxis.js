@@ -53,7 +53,7 @@ canvas.addEventListener("click", function(e) {
 
 function drawFlower() {
 
-  for(let i = 0, length = flowers.length; i < length; i++) {
+  for(var i = 0, length = flowers.length; i < length; i++) {
 
     if(flowers[i].n != flowers[i].maxSize) {
     flowers[i].phi = flowers[i].n * flowers[i].criticalAngle; //formula from paper -- need to change to radians
